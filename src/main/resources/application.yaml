@@ -1,3 +1,21 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1/digital-store
+
 spring:
-  application:
-    name: digital-store
+  datasource:
+    url: jdbc:mysql://localhost:3306/digital_store_db?useSSL=false&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      # Cực kỳ quan trọng: Tự động cập nhật bảng trong DB dựa trên code Java
+      ddl-auto: update
+    # Hiển thị câu lệnh SQL ra màn hình console để dễ debug thuật toán Gợi ý
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
