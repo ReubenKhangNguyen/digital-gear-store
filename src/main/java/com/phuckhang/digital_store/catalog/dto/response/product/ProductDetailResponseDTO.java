@@ -1,5 +1,7 @@
-package com.phuckhang.digital_store.catalog.dto.response;
+package com.phuckhang.digital_store.catalog.dto.response.product;
 
+import com.phuckhang.digital_store.catalog.dto.response.brand.BrandResponseDTO;
+import com.phuckhang.digital_store.catalog.dto.response.category.CategoryResponseDTO;
 import com.phuckhang.digital_store.catalog.enums.ProductStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -28,7 +30,7 @@ public class ProductDetailResponseDTO {
     BrandResponseDTO brand;
 
     // Trả về danh sách các link ảnh để Frontend làm hiệu ứng lướt qua lại
-    List<String> imageUrls;
+    List<ProductImageResponseDTO> images;
 
     Map<String, Object> specifications; // Cục JSON thông số chi tiết
 }

@@ -1,4 +1,4 @@
-package com.phuckhang.digital_store.catalog.dto.request;
+package com.phuckhang.digital_store.catalog.dto.request.category;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -19,4 +19,6 @@ public class CategoryRequestDTO {
     String name;
 
     String description; // Mô tả có thể để trống nên không cần Validation
+
+    Long parentId;
 }

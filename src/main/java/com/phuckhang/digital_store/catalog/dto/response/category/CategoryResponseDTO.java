@@ -1,7 +1,10 @@
-package com.phuckhang.digital_store.catalog.dto.response;
+package com.phuckhang.digital_store.catalog.dto.response.category;
 
+import com.phuckhang.digital_store.catalog.enums.CategoryStatus;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,6 +19,12 @@ public class CategoryResponseDTO {
     String name;
 
     String description;
+
+    Long parentId;
+
+    CategoryStatus categoryStatus;
+
+    List<CategoryResponseDTO> categoryChild;
 
     // Ở đây mình cố tình giấu đi createdAt, updatedAt, createdBy vì khách hàng xem danh mục không cần biết ai tạo nó vào lúc nào (Tránh Data Leakage)
 }

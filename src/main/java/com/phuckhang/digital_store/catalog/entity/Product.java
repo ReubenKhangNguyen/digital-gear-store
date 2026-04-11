@@ -50,7 +50,7 @@ public class Product extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY) // Lazy: Khi nào cần mới query lấy Brand lên, giúp tăng tốc độ
     @JoinColumn(name = "brand_id", nullable = false) // Tên cột khóa ngoại dưới DB MySQL
-    Brands brand;
+    Brand brand;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
@@ -60,5 +60,6 @@ public class Product extends BaseEntity {
 
     @JdbcTypeCode(SqlTypes.JSON) // "Phép thuật" của Hibernate 6 biến Map Java thành JSON MySQL
     @Column(name = "specifications", columnDefinition = "json")
+    @ToString.Exclude
     Map<String, Object> specifications;
 }

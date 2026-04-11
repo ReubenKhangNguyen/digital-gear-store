@@ -11,8 +11,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Entity
 @Table(name = "product_images")
+@Entity
 public class ProductImage extends BaseEntity {
 
     @Id

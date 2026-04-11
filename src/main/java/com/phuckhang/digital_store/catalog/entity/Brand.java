@@ -1,13 +1,10 @@
 package com.phuckhang.digital_store.catalog.entity;
 
-import com.phuckhang.digital_store.catalog.enums.CategoryStatus;
+import com.phuckhang.digital_store.catalog.enums.BrandStatus;
 import com.phuckhang.digital_store.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -16,30 +13,23 @@ import java.util.List;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "categories")
-public class Category extends BaseEntity {
-
+@Table(name = "brands") // Bảng dưới DB là số nhiều
+public class Brand extends BaseEntity { // Tên Class là số ít
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @Column(name = "name", nullable = false, unique = true, length = 100)
-    String name; // Ví dụ: "Máy ảnh", "Laptop Gaming"
+    String name;
+
+    @Column(name = "logo")
+    String logo; // Bổ sung cột lưu link ảnh logo
 
     @Column(name = "description", columnDefinition = "TEXT")
     String description;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    CategoryStatus categoryStatus;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn (name = "paren_id")
-    @ToString.Exclude
-    Category categoryParent;
-
-    @OneToMany (mappedBy = "categoryParent", cascade = CascadeType.ALL)
-    List<Category> categoryChild =  new ArrayList<>();
-
+    BrandStatus status; // Đổi thành status cho gọn
 }

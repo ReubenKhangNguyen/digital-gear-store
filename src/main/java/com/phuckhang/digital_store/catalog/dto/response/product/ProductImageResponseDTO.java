@@ -1,4 +1,4 @@
-package com.phuckhang.digital_store.catalog.dto.response;
+package com.phuckhang.digital_store.catalog.dto.response.product;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -9,10 +9,11 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class BrandResponseDTO {
+public class ProductImageResponseDTO {
+
     Long id;
 
-    String name;
+    String imageUrl;
 
-    String description;
+    Boolean isThumbnail;
 }

@@ -1,4 +1,4 @@
-package com.phuckhang.digital_store.catalog.dto.response;
+package com.phuckhang.digital_store.catalog.dto.response.product;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

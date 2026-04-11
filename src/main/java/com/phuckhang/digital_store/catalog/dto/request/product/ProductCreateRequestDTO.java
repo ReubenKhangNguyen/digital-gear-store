@@ -1,4 +1,4 @@
-package com.phuckhang.digital_store.catalog.dto.request;
+package com.phuckhang.digital_store.catalog.dto.request.product;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -35,6 +36,9 @@ public class ProductCreateRequestDTO {
 
     @NotNull(message = "Thiếu ID Thương hiệu")
     Long brandId;
+
+    List<ProductImageDTO> images;
+
 
     // Đây là "thức ăn" cho thuật toán Gợi ý (Recommendation) của bạn sau này!
     // Frontend sẽ gửi lên cục JSON: {"ram": "16GB", "lens_mount": "E-mount"}
