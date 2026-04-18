@@ -8,6 +8,8 @@ import com.phuckhang.digital_store.catalog.enums.BrandStatus;
 import com.phuckhang.digital_store.catalog.mapper.BrandMapper;
 import com.phuckhang.digital_store.catalog.repository.BrandRepository;
 import com.phuckhang.digital_store.catalog.service.BrandService;
+import com.phuckhang.digital_store.common.exception.AppException;
+import com.phuckhang.digital_store.common.exception.ErrorCode;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +31,7 @@ public class BrandServiceImpl implements BrandService {
     public BrandResponseDTO createBrand(BrandCreateRequestDTO requestDTO) {
 
         if (brandRepository.existsByName(requestDTO.getName())) {
-            throw new RuntimeException("Brand '\" + requestDTO.getName() + \"' đã tồn tại trong hệ thống!!");
+            throw new AppException(ErrorCode.BRAND_NAME_EXISTED);
         }
 
         Brand newBrand = brandMapper.toEntity(requestDTO);
@@ -54,7 +56,7 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public BrandResponseDTO getBrandById(Long id) {
 
-        Brand brand = brandRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy Brand với ID: " + id));
+        Brand brand = brandRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
 
         return brandMapper.toBrandResponseDTO(brand);
     }
@@ -63,10 +65,10 @@ public class BrandServiceImpl implements BrandService {
     @Transactional
     public BrandResponseDTO updateBrand(Long id, BrandUpdateRequestDTO requestDTO) {
 
-        Brand brand = brandRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy Brand cần sửa"));
+        Brand brand = brandRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
 
         if (!brand.getName().equals(requestDTO.getName()) && brandRepository.existsByName(requestDTO.getName())) {
-            throw new RuntimeException("Tên Brand '" + requestDTO.getName() + "' đã bị trùng với tên Brand khác!");
+            throw new AppException(ErrorCode.BRAND_NAME_EXISTED);
         }
 
         brandMapper.updateBrand(requestDTO, brand);
@@ -80,7 +82,7 @@ public class BrandServiceImpl implements BrandService {
     @Transactional
     public void deleteBrand(Long id) {
 
-        Brand brand = brandRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy Brand với ID: " + id));
+        Brand brand = brandRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
 
         brand.setStatus(BrandStatus.INACTIVE);
 

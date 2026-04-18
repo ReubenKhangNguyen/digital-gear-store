@@ -10,7 +10,7 @@ public interface BrandService {
 
     BrandResponseDTO createBrand(BrandCreateRequestDTO requestDTO);
 
-    List<BrandResponseDTO> getAllBrands(); // Lấy tất cả Hãng đổ ra Table
+    List<BrandResponseDTO> getAllBrands();
 
     BrandResponseDTO getBrandById(Long id);
 

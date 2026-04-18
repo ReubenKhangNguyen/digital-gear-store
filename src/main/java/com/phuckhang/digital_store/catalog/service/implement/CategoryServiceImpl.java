@@ -7,6 +7,8 @@
     import com.phuckhang.digital_store.catalog.mapper.CategoryMapper;
     import com.phuckhang.digital_store.catalog.repository.CategoryRepository;
     import com.phuckhang.digital_store.catalog.service.CategoryService;
+    import com.phuckhang.digital_store.common.exception.AppException;
+    import com.phuckhang.digital_store.common.exception.ErrorCode;
     import jakarta.transaction.Transactional;
     import lombok.AccessLevel;
     import lombok.RequiredArgsConstructor;
@@ -34,7 +36,7 @@
         public CategoryResponseDTO createCategory(CategoryRequestDTO requestDTO) {
             // check trùng tên
             if (categoryRepository.existsByName(requestDTO.getName())) {
-                throw new RuntimeException("Danh mục '" + requestDTO.getName() + "' đã tồn tại trong hệ thống!");
+                throw new AppException(ErrorCode.CATEGORY_NAME_EXISTED);
             }
 
             Category newCategory = categoryMapper.toEntity(requestDTO);
@@ -42,10 +44,10 @@
             // check danh mục cha để gán vào đối tượng CategoryParen trong newCategory
             if (requestDTO.getParentId() != null) {
                 Category parentCategory = categoryRepository.findById(requestDTO.getParentId())
-                        .orElseThrow(() -> new RuntimeException("Danh mục cha không tồn tại!"));
+                        .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
 
                 if (parentCategory.getCategoryStatus() == CategoryStatus.DELETED){
-                    throw  new RuntimeException("Không thể thêm vào danh mục đã bị xóa!");
+                    throw new AppException(ErrorCode.CATEGORY_PARENT_DELETED);
                 }
 
                 // gán parentCategory cho đối tượng CategoryParen trong newCategory
@@ -110,7 +112,7 @@
 
         @Override
         public CategoryResponseDTO getCategoryById(Long id) {
-            Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy danh mục với ID: " + id));
+            Category category = categoryRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
 
             return categoryMapper.toCategoryResponseDTO(category);
         }
@@ -119,17 +121,17 @@
         @Transactional
         public CategoryResponseDTO updateCategory(Long Id, CategoryRequestDTO requestDTO) {
 
-            Category category = categoryRepository.findById((Id)).orElseThrow(() ->new RuntimeException("Không tìm thấy danh mục cần sửa"));
+            Category category = categoryRepository.findById((Id)).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
 
             if (!category.getName().equals(requestDTO.getName()) && categoryRepository.existsByName(requestDTO.getName())) {
-                throw new RuntimeException("Tên danh mục '" + requestDTO.getName() + "' đã bị trùng với danh mục khác!");
+                throw new AppException(ErrorCode.CATEGORY_NAME_EXISTED);
             }
 
             if (requestDTO.getParentId() != null) {
                 if (requestDTO.getParentId().equals(Id)){
-                    throw new RuntimeException("Lỗi Logic: Một danh mục không thể tự nhận chính nó làm cha!");
+                    throw new AppException(ErrorCode.CATEGORY_PARENT_CANNOT_BE_SELF);
                 }
-                Category categoryParent = categoryRepository.findById(category.getId()).orElseThrow(() -> new RuntimeException("Danh mục cha không tồn tại!"));
+                Category categoryParent = categoryRepository.findById(category.getId()).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
             }
             else {
                 category.setCategoryParent(null);
@@ -146,11 +148,11 @@
         @Override
         public void deleteCategory(Long Id) {
     //      Xóa mềm
-            Category category = categoryRepository.findById((Id)).orElseThrow(() ->new RuntimeException("Không tìm thấy danh mục để xóa"));
+            Category category = categoryRepository.findById((Id)).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
 
             boolean checkActiveChild = category.getCategoryChild().stream().anyMatch(child -> child.getCategoryStatus() != CategoryStatus.DELETED);
             if (checkActiveChild) {
-                throw new RuntimeException("\"CHẶN XÓA: Không thể xóa danh mục này vì vẫn còn danh mục con đang hoạt động bên trong!\"");
+                throw new AppException(ErrorCode.CATEGORY_HAS_ACTIVE_CHILDREN);
             }
 
             category.setCategoryStatus(CategoryStatus.DELETED);

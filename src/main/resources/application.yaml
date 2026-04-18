@@ -21,6 +21,6 @@ spring:
         format_sql: true
 
 cloudinary:
-  cloud-name: ${CLOUDINARY_CLOUD_NAME:default_cloud}
-  api-key: ${CLOUDINARY_API_KEY:default_key}
-  api-secret: ${CLOUDINARY_API_SECRET:default_secret}
+  cloud-name: "dmffeh9qu"
+  api-key: "382476592238214"
+  api-secret: "-jkLcQsBO1KUiD91UEqqol1NwQ0"

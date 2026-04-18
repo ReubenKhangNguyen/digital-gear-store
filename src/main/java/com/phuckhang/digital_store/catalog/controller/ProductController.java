@@ -5,12 +5,12 @@ import com.phuckhang.digital_store.catalog.dto.request.product.ProductCreateRequ
 import com.phuckhang.digital_store.catalog.dto.response.product.ProductDetailResponseDTO;
 import com.phuckhang.digital_store.catalog.dto.response.product.ProductListResponseDTO;
 import com.phuckhang.digital_store.catalog.service.ProductService;
+import com.phuckhang.digital_store.common.dto.response.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,27 +24,37 @@ public class ProductController {
 
     ProductService productService;
 
-
     @GetMapping
-    public ResponseEntity<List<ProductListResponseDTO>> getAllProducts() {
-        List<ProductListResponseDTO> products = productService.getAllProducts();
-        return ResponseEntity.ok(products);
+    public ApiResponse<List<ProductListResponseDTO>> getAllProducts() {
+        return ApiResponse.<List<ProductListResponseDTO>>builder()
+                .result(productService.getAllProducts())
+                .build();
     }
-
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDetailResponseDTO> getProductById(@PathVariable Long id) {
-        ProductDetailResponseDTO productDetail = productService.getProductById(id);
-        return ResponseEntity.ok(productDetail);
+    public ApiResponse<ProductDetailResponseDTO> getProductById(@PathVariable Long id) {
+        return ApiResponse.<ProductDetailResponseDTO>builder()
+                .result(productService.getProductById(id))
+                .build();
     }
-
 
     @PostMapping
-    public ResponseEntity<ProductDetailResponseDTO> createProduct(
+    @ResponseStatus(HttpStatus.CREATED) // HTTP 201 Created
+    public ApiResponse<ProductDetailResponseDTO> createProduct(
             @Valid @RequestBody ProductCreateRequestDTO requestDTO) {
-
-        ProductDetailResponseDTO newProduct = productService.createProduct(requestDTO);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
+        return ApiResponse.<ProductDetailResponseDTO>builder()
+                .message("Tạo sản phẩm thành công")
+                .result(productService.createProduct(requestDTO))
+                .build();
     }
+
+//    Test thôi chưa làm các nghiệp vụ nặng
+//    @DeleteMapping("/{id}")
+//    public ApiResponse<String> deleteProductById(@PathVariable Long id) {
+//        productService.deleteProduct(id);
+//        return ApiResponse.<String>builder()
+//                .message("Xóa sản phẩm thành công")
+//                .build();
+//    }
+
 }

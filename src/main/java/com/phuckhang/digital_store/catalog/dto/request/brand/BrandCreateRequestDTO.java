@@ -13,8 +13,8 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BrandCreateRequestDTO {
 
-    @NotBlank(message = "Tên hãng không được để trống")
-    @Size(max = 100, message = "Tên hãng không được vượt quá 100 ký tự")
+    @NotBlank(message = "BRAND_NAME_BLANK")
+    @Size(max = 100, message = "BRAND_NAME_TOO_LONG")
     String name;
     String description;
     String logo;

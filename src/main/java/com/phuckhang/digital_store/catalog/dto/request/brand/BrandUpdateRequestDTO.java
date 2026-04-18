@@ -11,12 +11,12 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BrandUpdateRequestDTO {
 
-    @NotBlank(message = "Tên thương hiệu không được để trống")
+    @NotBlank(message = "BRAND_NAME_BLANK")
     String name;
 
     String logo;
     String description;
 
-    @NotNull(message = "Trạng thái không được để trống khi cập nhật")
+    @NotNull(message = "BRAND_STATUS_NULL")
     BrandStatus status;
 }

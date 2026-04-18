@@ -18,23 +18,23 @@ import java.util.Map;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductCreateRequestDTO {
 
-    @NotBlank(message = "Tên sản phẩm không được trống")
+    @NotBlank(message = "PRODUCT_NAME_BLANK")
     String name;
 
-    @NotBlank(message = "Mã SKU không được trống")
+    @NotBlank(message = "PRODUCT_SKU_BLANK")
     String sku;
 
-    @NotNull(message = "Giá không được để trống")
-    @Min(value = 0, message = "Giá sản phẩm không được âm")
+    @NotNull(message = "PRODUCT_PRICE_NULL")
+    @Min(value = 0, message = "PRODUCT_PRICE_NEGATIVE")
     BigDecimal price;
 
-    @Min(value = 0, message = "Số lượng tồn kho không được âm")
+    @Min(value = 0, message = "PRODUCT_STOCK_NEGATIVE")
     Integer stockQuantity;
 
-    @NotNull(message = "Thiếu ID Danh mục")
+    @NotNull(message = "PRODUCT_CATEGORY_ID_NULL")
     Long categoryId; // Chỉ cần ID, không cần cả Object Category
 
-    @NotNull(message = "Thiếu ID Thương hiệu")
+    @NotNull(message = "PRODUCT_BRAND_ID_NULL")
     Long brandId;
 
     List<ProductImageDTO> images;

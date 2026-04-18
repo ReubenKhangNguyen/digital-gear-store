@@ -14,8 +14,8 @@ import jakarta.validation.constraints.Size;
 public class CategoryRequestDTO {
 
     // Lớp giáp Validation đầu tiên: Không cho phép Admin để trống tên danh mục
-    @NotBlank(message = "Tên danh mục không được để trống")
-    @Size(max = 100, message = "Tên danh mục không được vượt quá 100 ký tự")
+    @NotBlank(message = "CATEGORY_NAME_BLANK")
+    @Size(max = 100, message = "CATEGORY_NAME_TOO_LONG")
     String name;
 
     String description; // Mô tả có thể để trống nên không cần Validation
