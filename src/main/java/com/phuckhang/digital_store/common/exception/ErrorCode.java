@@ -42,10 +42,19 @@ public enum ErrorCode {
     BRAND_NOT_FOUND(1301, "Thương hiệu không tồn tại", HttpStatus.NOT_FOUND),
     BRAND_NAME_EXISTED(1302, "Tên thương hiệu này đã tồn tại", HttpStatus.BAD_REQUEST),
 
-    USER_EXISTED(2001, "Email này đã được đăng ký", HttpStatus.BAD_REQUEST),
-    USER_NOT_FOUND(2002, "Không tìm thấy người dùng", HttpStatus.NOT_FOUND),
-    UNAUTHENTICATED(2003, "Bạn chưa đăng nhập", HttpStatus.UNAUTHORIZED),
-    UNAUTHORIZED(2004, "Bạn không có quyền truy cập chức năng này", HttpStatus.FORBIDDEN)
+    USER_EXISTED(2001, "Tên đăng nhập này đã tồn tại trong hệ thống", HttpStatus.BAD_REQUEST),
+    EMAIL_EXISTED(2002, "Email này đã được đăng ký", HttpStatus.BAD_REQUEST),
+    PHONE_EXISTED(2003, "Số điện thoại này đã được đăng ký", HttpStatus.BAD_REQUEST),
+    USER_NOT_FOUND(2004, "Người dùng không tồn tại", HttpStatus.NOT_FOUND),
+    UNAUTHENTICATED(2005, "Tên đăng nhập hoặc mật khẩu không chính xác", HttpStatus.UNAUTHORIZED),
+    UNAUTHORIZED(2006, "Bạn không có quyền thực hiện hành động này", HttpStatus.FORBIDDEN),
+
+    INVALID_USERNAME(3001, "Username không được để trống", HttpStatus.BAD_REQUEST),
+    INVALID_PASSWORD(3002, "Mật khẩu phải có ít nhất 6 ký tự", HttpStatus.BAD_REQUEST),
+    INVALID_EMAIL(3003, "Định dạng Email không hợp lệ", HttpStatus.BAD_REQUEST),
+    INVALID_FULLNAME(3001, "FullName không được để trống", HttpStatus.BAD_REQUEST),
+
+
     ;
 
 
