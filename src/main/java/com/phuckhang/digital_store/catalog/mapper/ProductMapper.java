@@ -37,6 +37,7 @@ public interface ProductMapper {
 
 
     @Mapping(target = "thumbnailUrl", source = "productImages", qualifiedByName = "mapThumbnailUrl")
+    @Mapping(target = "categoryName", source = "category.name")
     ProductListResponseDTO toListResponseDTO(Product product);
 
 

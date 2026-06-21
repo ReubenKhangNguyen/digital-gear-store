@@ -44,6 +44,5 @@ public class ProductUpdateRequestDTO {
     @NotNull(message = "PRODUCT_STATUS_NULL")
     ProductStatus status;
 
-
     Map<String, Object> specifications;
 }

@@ -17,7 +17,9 @@ public enum ErrorCode {
     PRODUCT_CATEGORY_ID_NULL(1115, "Thiếu ID Danh mục", HttpStatus.BAD_REQUEST),
     PRODUCT_BRAND_ID_NULL(1116, "Thiếu ID Thương hiệu", HttpStatus.BAD_REQUEST),
     PRODUCT_STATUS_NULL(1117, "Trạng thái sản phẩm không được để trống", HttpStatus.BAD_REQUEST),
-
+    PRODUCT_NOT_ACTIVE(1119, "Sản phẩm đã ngừng kinh doanh", HttpStatus.BAD_REQUEST),
+    INVALID_OTP(7016, "Mã OTP không chính xác hoặc không tồn tại", HttpStatus.BAD_REQUEST),
+    OTP_EXPIRED(7017, "Mã OTP đã hết hạn", HttpStatus.BAD_REQUEST),
 
     CATEGORY_NAME_BLANK(1210, "Tên danh mục không được để trống", HttpStatus.BAD_REQUEST),
     CATEGORY_NAME_TOO_LONG(1211, "Tên danh mục không được vượt quá 100 ký tự", HttpStatus.BAD_REQUEST),
@@ -29,6 +31,7 @@ public enum ErrorCode {
 
     UNCATEGORIZED_EXCEPTION(9999, "Lỗi hệ thống không xác định", HttpStatus.INTERNAL_SERVER_ERROR),
     INVALID_KEY(1001, "Invalid message key", HttpStatus.BAD_REQUEST),
+    PASSWORD_NOT_MATCH(1015, "Mật khẩu cũ không chính xác", HttpStatus.BAD_REQUEST),
 
     PRODUCT_NOT_FOUND(1101, "Sản phẩm không tồn tại trong hệ thống", HttpStatus.NOT_FOUND),
     PRODUCT_SKU_EXISTED(1102, "Mã SKU này đã tồn tại trong hệ thống", HttpStatus.BAD_REQUEST),
@@ -46,13 +49,25 @@ public enum ErrorCode {
     EMAIL_EXISTED(2002, "Email này đã được đăng ký", HttpStatus.BAD_REQUEST),
     PHONE_EXISTED(2003, "Số điện thoại này đã được đăng ký", HttpStatus.BAD_REQUEST),
     USER_NOT_FOUND(2004, "Người dùng không tồn tại", HttpStatus.NOT_FOUND),
-    UNAUTHENTICATED(2005, "Tên đăng nhập hoặc mật khẩu không chính xác", HttpStatus.UNAUTHORIZED),
+    UNAUTHENTICATED(2005, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(2006, "Bạn không có quyền thực hiện hành động này", HttpStatus.FORBIDDEN),
 
     INVALID_USERNAME(3001, "Username không được để trống", HttpStatus.BAD_REQUEST),
     INVALID_PASSWORD(3002, "Mật khẩu phải có ít nhất 6 ký tự", HttpStatus.BAD_REQUEST),
     INVALID_EMAIL(3003, "Định dạng Email không hợp lệ", HttpStatus.BAD_REQUEST),
-    INVALID_FULLNAME(3001, "FullName không được để trống", HttpStatus.BAD_REQUEST),
+    INVALID_FULLNAME(3004, "FullName không được để trống", HttpStatus.BAD_REQUEST),
+
+    // Lỗi liên quan đến Giỏ hàng
+    CART_EMPTY(1060, "Giỏ hàng của bạn đang trống", HttpStatus.BAD_REQUEST),
+    CART_ITEM_NOT_FOUND(1061, "Không tìm thấy sản phẩm trong giỏ hàng", HttpStatus.NOT_FOUND),
+    QUANTITY_EXCEEDS_STOCK(1062, "Số lượng yêu cầu vượt quá tồn kho khả dụng", HttpStatus.BAD_REQUEST),
+    // Lỗi liên quan đến Địa chỉ
+    ADDRESS_NOT_FOUND(1065, "Không tìm thấy thông tin sổ địa chỉ", HttpStatus.NOT_FOUND),
+    // Lỗi liên quan đến Đơn hàng
+    ORDER_NOT_FOUND(1070, "Không tìm thấy đơn hàng", HttpStatus.NOT_FOUND),
+    ORDER_CANNOT_BE_CANCELLED(1071, "Đơn hàng không thể hủy do đã được duyệt hoặc đang giao", HttpStatus.BAD_REQUEST),
+    ORDER_LOCKED(1072, "Đơn hàng đã chốt sổ (Hoàn thành hoặc Hủy), không thể cập nhật thêm", HttpStatus.BAD_REQUEST),
+    INVALID_STATE_TRANSITION(1073, "Thao tác nhảy trạng thái đơn hàng không hợp lệ", HttpStatus.BAD_REQUEST),
 
 
     ;

@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import com.phuckhang.digital_store.catalog.dto.request.brand.BrandUpdateRequestDTO;
 
 @RestController
 @RequestMapping("/brands")
@@ -42,6 +43,22 @@ public class BrandController {
         return ApiResponse.<BrandResponseDTO>builder()
                 .message("Tạo thương hiệu thành công")
                 .result(brandService.createBrand(brandCreateRequestDTO))
+                .build();
+    }
+
+    @PutMapping("/{id}")
+    public ApiResponse<BrandResponseDTO> updateBrand(@PathVariable Long id, @Valid @RequestBody BrandUpdateRequestDTO requestDTO) {
+        return ApiResponse.<BrandResponseDTO>builder()
+                .message("Cập nhật thương hiệu thành công")
+                .result(brandService.updateBrand(id, requestDTO))
+                .build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ApiResponse<String> deleteBrand(@PathVariable Long id) {
+        brandService.deleteBrand(id);
+        return ApiResponse.<String>builder()
+                .message("Xóa thương hiệu thành công")
                 .build();
     }
 }

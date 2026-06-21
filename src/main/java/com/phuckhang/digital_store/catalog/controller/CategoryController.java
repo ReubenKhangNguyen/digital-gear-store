@@ -37,20 +37,27 @@ public class CategoryController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED) // Cực kỳ quan trọng: Giữ nguyên mã 201 Created của HTTP
+    @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<CategoryResponseDTO> createCategory(@Valid @RequestBody CategoryRequestDTO categoryRequestDTO) {
         return ApiResponse.<CategoryResponseDTO>builder()
-                .message("Tạo danh mục thành công") // Có thể truyền thêm lời nhắn nếu thích
+                .message("Tạo danh mục thành công")
                 .result(categoryService.createCategory(categoryRequestDTO))
                 .build();
     }
 
-//    Test thôi chưa làm xóa mềm
-//    @DeleteMapping("/{id}")
-//    public ApiResponse<String> deleteCategory(@PathVariable("id") Long id) {
-//        categoryService.deleteCategory(id);
-//        return ApiResponse.<String>builder()
-//                .message("Xóa danh mục thành công")
-//                .build(); // Không có result, chỉ trả về message và code 1000
-//    }
+    @PutMapping("/{id}")
+    public ApiResponse<CategoryResponseDTO> updateCategory(@PathVariable Long id, @Valid @RequestBody CategoryRequestDTO requestDTO) {
+        return ApiResponse.<CategoryResponseDTO>builder()
+                .message("Cập nhật danh mục thành công")
+                .result(categoryService.updateCategory(id, requestDTO))
+                .build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ApiResponse<String> deleteCategory(@PathVariable("id") Long id) {
+        categoryService.deleteCategory(id);
+        return ApiResponse.<String>builder()
+                .message("Xóa danh mục thành công")
+                .build(); // Không có result, chỉ trả về message và code 1000
+    }
 }

@@ -10,22 +10,41 @@ spring:
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  # Cấu hình Gửi Email (Ví dụ: Mailtrap)
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 2525
+    username: your_mailtrap_username_here
+    password: your_mailtrap_password_here
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  # Cấu hình Đăng nhập Google OAuth2
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: your_google_client_id_here.apps.googleusercontent.com
+            client-secret: your_google_client_secret_here
+            scope: email, profile
+
   jpa:
     hibernate:
-      # Cực kỳ quan trọng: Tự động cập nhật bảng trong DB dựa trên code Java
       ddl-auto: update
-    # Hiển thị câu lệnh SQL ra màn hình console để dễ debug thuật toán Gợi ý
     show-sql: true
     properties:
       hibernate:
         format_sql: true
 
 cloudinary:
-  cloud-name:
-  api-key:
-  api-secret:
-
-
+  cloud-name: ${CLOUDINARY_CLOUD_NAME}
+  api-key: ${CLOUDINARY_API_KEY}
+  api-secret: ${CLOUDINARY_API_SECRET}
 
 jwt:
-  signerKey: 
+  signerKey: "your_jwt_secret_key_here_must_be_long_enough_for_hs512"

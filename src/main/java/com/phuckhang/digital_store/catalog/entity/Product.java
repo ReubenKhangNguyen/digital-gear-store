@@ -39,6 +39,10 @@ public class Product extends BaseEntity {
     @Column(name = "stock_quantity", nullable = false)
     Integer stockQuantity; // Số lượng tồn kho
 
+    @Builder.Default
+    @Column(name = "hold_quantity", nullable = false)
+    Integer holdQuantity = 0; // Số lượng đang bị tạm giữ (Reservation)
+
     @Enumerated(EnumType.STRING) // Lưu chữ "ACTIVE" xuống DB thay vì lưu số 0, 1
     @Column(nullable = false, length = 20)
     ProductStatus status;
@@ -46,10 +50,9 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     List<ProductImage> productImages = new ArrayList<>();
 
-    // --- THIẾT LẬP KHÓA NGOẠI (FOREIGN KEYS) ---
 
     @ManyToOne(fetch = FetchType.LAZY) // Lazy: Khi nào cần mới query lấy Brand lên, giúp tăng tốc độ
-    @JoinColumn(name = "brand_id", nullable = false) // Tên cột khóa ngoại dưới DB MySQL
+    @JoinColumn(name = "brand_id", nullable = false)
     Brand brand;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -20,12 +20,12 @@ public class ProductImage extends BaseEntity {
     Long id;
 
     @Column(name = "image_url", nullable = false, length = 500)
-    String imageUrl; // Đường dẫn URL của bức ảnh
+    String imageUrl;
 
     @Column(name = "is_thumbnail", nullable = false)
-    Boolean isThumbnail; // True nếu là ảnh bìa chính, False nếu là ảnh phụ
+    Boolean isThumbnail;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
-    Product product; // Bức ảnh này thuộc về Sản phẩm nào?
+    Product product;
 }

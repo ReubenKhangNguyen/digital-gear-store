@@ -18,7 +18,7 @@ public interface CategoryMapper {
     @Mapping(ignore = true,target = "categoryChild")
     CategoryResponseDTO toCategoryResponseDTO(Category category);
 
-    @Mapping(source = "parentId" , target = "categoryParent.id")
+    @Mapping(target = "categoryParent", ignore = true)
     @Mapping(target = "categoryChild", ignore = true)
     void updateCategory(CategoryRequestDTO categoryRequestDTO, @MappingTarget Category category);
 

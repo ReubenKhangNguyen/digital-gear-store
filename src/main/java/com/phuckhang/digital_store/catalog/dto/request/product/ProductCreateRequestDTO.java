@@ -40,7 +40,6 @@ public class ProductCreateRequestDTO {
     List<ProductImageDTO> images;
 
 
-    // Đây là "thức ăn" cho thuật toán Gợi ý (Recommendation) của bạn sau này!
     // Frontend sẽ gửi lên cục JSON: {"ram": "16GB", "lens_mount": "E-mount"}
     Map<String, Object> specifications;
 }

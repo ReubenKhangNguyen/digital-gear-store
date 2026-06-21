@@ -14,6 +14,7 @@ import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class BrandServiceImpl implements BrandService {
     BrandRepository brandRepository;
     BrandMapper brandMapper;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     @Transactional
     public BrandResponseDTO createBrand(BrandCreateRequestDTO requestDTO) {
@@ -61,6 +63,7 @@ public class BrandServiceImpl implements BrandService {
         return brandMapper.toBrandResponseDTO(brand);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     @Transactional
     public BrandResponseDTO updateBrand(Long id, BrandUpdateRequestDTO requestDTO) {
@@ -78,6 +81,7 @@ public class BrandServiceImpl implements BrandService {
         return brandMapper.toBrandResponseDTO(savedBrand);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
     @Transactional
     public void deleteBrand(Long id) {

@@ -14,6 +14,7 @@
     import lombok.RequiredArgsConstructor;
     import lombok.experimental.FieldDefaults;
     import lombok.extern.slf4j.Slf4j;
+    import org.springframework.security.access.prepost.PreAuthorize;
     import org.springframework.stereotype.Service;
 
     import java.util.ArrayList;
@@ -31,6 +32,7 @@
         CategoryMapper categoryMapper;
 
 
+        @PreAuthorize("hasRole('ADMIN')")
         @Override
         @Transactional
         public CategoryResponseDTO createCategory(CategoryRequestDTO requestDTO) {
@@ -46,7 +48,7 @@
                 Category parentCategory = categoryRepository.findById(requestDTO.getParentId())
                         .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
 
-                if (parentCategory.getCategoryStatus() == CategoryStatus.DELETED){
+                if (parentCategory.getCategoryStatus() == CategoryStatus.INACTIVE){
                     throw new AppException(ErrorCode.CATEGORY_PARENT_DELETED);
                 }
 
@@ -64,7 +66,6 @@
             return categoryMapper.toCategoryResponseDTO(savedCategory);
 
         }
-
 
 
         @Override
@@ -117,6 +118,7 @@
             return categoryMapper.toCategoryResponseDTO(category);
         }
 
+        @PreAuthorize("hasRole('ADMIN')")
         @Override
         @Transactional
         public CategoryResponseDTO updateCategory(Long Id, CategoryRequestDTO requestDTO) {
@@ -131,7 +133,8 @@
                 if (requestDTO.getParentId().equals(Id)){
                     throw new AppException(ErrorCode.CATEGORY_PARENT_CANNOT_BE_SELF);
                 }
-                Category categoryParent = categoryRepository.findById(category.getId()).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+                Category categoryParent = categoryRepository.findById(requestDTO.getParentId()).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+                category.setCategoryParent(categoryParent);
             }
             else {
                 category.setCategoryParent(null);
@@ -144,18 +147,18 @@
             return categoryMapper.toCategoryResponseDTO(updateCategory);
         }
 
-
+        @PreAuthorize("hasRole('ADMIN')")
         @Override
         public void deleteCategory(Long Id) {
     //      Xóa mềm
             Category category = categoryRepository.findById((Id)).orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
 
-            boolean checkActiveChild = category.getCategoryChild().stream().anyMatch(child -> child.getCategoryStatus() != CategoryStatus.DELETED);
+            boolean checkActiveChild = category.getCategoryChild().stream().anyMatch(child -> child.getCategoryStatus() != CategoryStatus.INACTIVE);
             if (checkActiveChild) {
                 throw new AppException(ErrorCode.CATEGORY_HAS_ACTIVE_CHILDREN);
             }
 
-            category.setCategoryStatus(CategoryStatus.DELETED);
+            category.setCategoryStatus(CategoryStatus.INACTIVE);
 
             categoryRepository.save(category);
     //      Xóa hẳn
